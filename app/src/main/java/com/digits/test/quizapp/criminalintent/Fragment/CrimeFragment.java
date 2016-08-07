@@ -1,4 +1,4 @@
-package com.digits.test.quizapp.criminalintent;
+package com.digits.test.quizapp.criminalintent.Fragment;
 
 
 import android.os.Bundle;
@@ -8,7 +8,13 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.digits.test.quizapp.criminalintent.Model.Crime;
+import com.digits.test.quizapp.criminalintent.R;
 
 
 /**
@@ -18,6 +24,9 @@ public class CrimeFragment extends Fragment {
 
     private Crime mcrime;
     private EditText titleField;
+    private Button date_button;
+    private CheckBox solved;
+
     public CrimeFragment() {
         // Required empty public constructor
     }
@@ -50,6 +59,20 @@ public class CrimeFragment extends Fragment {
 
             }
         });
+
+        date_button = (Button) v.findViewById(R.id.date);
+        date_button.setText(mcrime.getDate().toString());
+        date_button.setEnabled(Boolean.FALSE);
+
+        solved=(CheckBox) v.findViewById(R.id.solved);
+        solved.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                mcrime.setSolved(b);
+            }
+        });
+
+
         return v;
     }
 
