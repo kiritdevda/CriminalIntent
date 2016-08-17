@@ -50,6 +50,12 @@ public class CrimeListFragment extends ListFragment {
         Log.d("CrimeListFragment :",crime.getTitle() + "was clicked");
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((CrimeAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
     private class CrimeAdapter extends ArrayAdapter{
 
         public CrimeAdapter(ArrayList<Crime> crimes){

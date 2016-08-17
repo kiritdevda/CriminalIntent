@@ -34,11 +34,28 @@ public class CrimeFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static CrimeFragment newInstance(UUID crime_UUID) {
+        
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_CRIME_ID,crime_UUID);
+
+        CrimeFragment fragment = new CrimeFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
     @Override
     public void onCreate(Bundle SavedInstanceState){
     super.onCreate(SavedInstanceState);
         //mcrime = new Crime();
-        UUID crime = (UUID) getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        //UUID crimeId = (UUID)getActivity().getIntent().getSerializableExtra(EXTRA_CRIME_ID);
+
+        /*
+        Above line been commented out as it make fragment rigid to use activity's intenet rather then activity handle it
+        Now the Fragment doesn't need to worry about the intent and hence retains it's flexibility
+        */
+
+        UUID crime = (UUID) getArguments().getSerializable(EXTRA_CRIME_ID);
         mcrime = CrimeLab.get(getActivity()).getCrime(crime);
     }
 
