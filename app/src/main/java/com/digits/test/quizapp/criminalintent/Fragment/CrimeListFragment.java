@@ -1,5 +1,6 @@
 package com.digits.test.quizapp.criminalintent.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.digits.test.quizapp.criminalintent.Activity.CrimeActivity;
 import com.digits.test.quizapp.criminalintent.Model.Crime;
 import com.digits.test.quizapp.criminalintent.Model.CrimeLab;
 import com.digits.test.quizapp.criminalintent.R;
@@ -41,6 +43,10 @@ public class CrimeListFragment extends ListFragment {
     public void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         Crime crime = (Crime)((CrimeAdapter)getListAdapter()).getItem(position);
+        //since we have bifercated fragment , Activity and in different packages so we use FQDN to refer it
+        Intent intent = new Intent(getActivity(), com.digits.test.quizapp.criminalintent.Activity.CrimeActivity.class);
+        intent.putExtra(CrimeFragment.EXTRA_CRIME_ID,crime.getId());
+        startActivity(intent);
         Log.d("CrimeListFragment :",crime.getTitle() + "was clicked");
     }
 
