@@ -44,7 +44,8 @@ public class CrimeListFragment extends ListFragment {
         super.onListItemClick(l, v, position, id);
         Crime crime = (Crime)((CrimeAdapter)getListAdapter()).getItem(position);
         //since we have bifercated fragment , Activity and in different packages so we use FQDN to refer it
-        Intent intent = new Intent(getActivity(), com.digits.test.quizapp.criminalintent.Activity.CrimeActivity.class);
+        //Intent intent = new Intent(getActivity(), com.digits.test.quizapp.criminalintent.Activity.CrimeActivity.class);
+        Intent intent = new Intent(getActivity(),com.digits.test.quizapp.criminalintent.Activity.CrimePagerActivity.class);
         intent.putExtra(CrimeFragment.EXTRA_CRIME_ID,crime.getId());
         startActivity(intent);
         Log.d("CrimeListFragment :",crime.getTitle() + "was clicked");
