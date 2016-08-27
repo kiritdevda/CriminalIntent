@@ -1,8 +1,11 @@
 package com.digits.test.quizapp.criminalintent.Fragment;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -66,10 +69,27 @@ public class DatePickerFragment extends DialogFragment {
             }
         });
 
+
+
         return new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .setTitle(R.string.DatePicker_title)
-                .setPositiveButton("Ok",null)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        sendResult(Activity.RESULT_OK);
+                    }
+                })
                 .create();
     }
+
+        private void sendResult(int Result_code){
+            if( getTargetFragment() == null){return;}
+
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_DATE,date_selected);
+
+            getTargetFragment().
+                    onActivityResult(getTargetRequestCode(),Result_code,intent);
+        }
 }

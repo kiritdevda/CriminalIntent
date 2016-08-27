@@ -1,11 +1,11 @@
 package com.digits.test.quizapp.criminalintent.Fragment;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -15,14 +15,10 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-
 import com.digits.test.quizapp.criminalintent.Model.Crime;
 import com.digits.test.quizapp.criminalintent.Model.CrimeLab;
 import com.digits.test.quizapp.criminalintent.R;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.util.List;
+import java.util.Date;
 import java.util.UUID;
 
 
@@ -36,6 +32,7 @@ public class CrimeFragment extends Fragment {
     private Button date_button;
     private CheckBox solved;
     private static final String DIALOG_DATE = "date";
+    private static final int REQUEST_DATE = 0;
     public static final String EXTRA_CRIME_ID="com.digits.test.quizapp.criminalintent.Fragment.CrimeFragment.crime_id";
     public CrimeFragment() {
         // Required empty public constructor
@@ -91,13 +88,14 @@ public class CrimeFragment extends Fragment {
         });
 
         date_button = (Button) v.findViewById(R.id.date);
-        date_button.setText(mcrime.getDate().toString());
+        updateDate();
         //date_button.setEnabled(Boolean.FALSE);
         date_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 DatePickerFragment dialog = DatePickerFragment.newInstance(mcrime.getDate());
+                dialog.setTargetFragment(CrimeFragment.this,REQUEST_DATE);
                 dialog.show(fm,DIALOG_DATE);}
         });
 
@@ -114,4 +112,18 @@ public class CrimeFragment extends Fragment {
         return v;
     }
 
+    public void updateDate() {
+        date_button.setText(mcrime.getDate().toString());
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_OK){return;}
+        if(requestCode == REQUEST_DATE){
+            Date date = (Date) data.getSerializableExtra(DatePickerFragment.EXTRA_DATE);
+            mcrime.setDate(date);
+            updateDate();
+        }
+    }
 }
