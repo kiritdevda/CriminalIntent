@@ -2,7 +2,10 @@ package com.digits.test.quizapp.criminalintent.Fragment;
 
 
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -17,6 +20,9 @@ import com.digits.test.quizapp.criminalintent.Model.Crime;
 import com.digits.test.quizapp.criminalintent.Model.CrimeLab;
 import com.digits.test.quizapp.criminalintent.R;
 
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -29,6 +35,7 @@ public class CrimeFragment extends Fragment {
     private EditText titleField;
     private Button date_button;
     private CheckBox solved;
+    private static final String DIALOG_DATE = "date";
     public static final String EXTRA_CRIME_ID="com.digits.test.quizapp.criminalintent.Fragment.CrimeFragment.crime_id";
     public CrimeFragment() {
         // Required empty public constructor
@@ -85,7 +92,14 @@ public class CrimeFragment extends Fragment {
 
         date_button = (Button) v.findViewById(R.id.date);
         date_button.setText(mcrime.getDate().toString());
-        date_button.setEnabled(Boolean.FALSE);
+        //date_button.setEnabled(Boolean.FALSE);
+        date_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                DatePickerFragment dialog = new DatePickerFragment();
+                dialog.show(fm,DIALOG_DATE);}
+        });
 
         solved=(CheckBox) v.findViewById(R.id.solved);
         solved.setChecked(mcrime.IsSolved());
